@@ -1,11 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 #include <locale.h>
 
 int main(){
 
     setlocale(LC_ALL, "Portuguese"); //Permite a utilização de acentos e marcações gráficas
-    int opcao=0, numero, i=0, quociente[80], resto[80], auxiliar = 0;
+    int opcao=0, numero, i=0, quociente[80], resto[80], auxiliar = 0, resultadoDecimal = 0;
 
 
     while(opcao != 5){
@@ -18,6 +19,7 @@ int main(){
         }
         i = 0;
         auxiliar = 0;
+        numero = 0;
 
         printf("-----Conversor de Base-----");
         printf("\n1 - Decimal para binário");
@@ -66,7 +68,14 @@ int main(){
 
             case 2:
                 printf("-----Binário para decimal-----");
-                //TODO
+                printf("\nDigite o número: ");
+                scanf("%d", &numero);
+                while(numero!=0){
+                    resultadoDecimal = resultadoDecimal + pow(2,i) * numero % 10;
+                    numero /= 10;
+                    i++;
+                }
+                printf("\n %d em decimal: ", resultadoDecimal)
                 system("PAUSE");
             break;
 
