@@ -2,8 +2,8 @@
 #include <stdlib.h>
 #include <locale.h>
 
-int main()
-{
+int main(){
+
     setlocale(LC_ALL, "Portuguese"); //Permite a utilização de acentos e marcações gráficas
     int opcao=0, numero, i=0, quociente[80], resto[80], auxiliar = 0;
 
