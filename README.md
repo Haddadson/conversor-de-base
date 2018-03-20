@@ -22,6 +22,10 @@ resposta 150.
 O usuário pode realizar quantas conversões quiser.
 
 
+### Grupo
+
+- Gabriel Henrique Souza Haddad Campos
+
 ### Matérias
 
 - Algoritmos e Estruturas de Dados I
