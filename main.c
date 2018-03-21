@@ -1,13 +1,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
-#include <locale.h>
+#include <locale.h>  //permite a utilização de acentos e marcas gráficas
+#include <stdbool.h> //permite a utilização do tipo boolean
+
+#define true 1    //define o valor 1 como "true"
+#define false 0   //define o valor 0 como "false"
 
 int main(){
 
     setlocale(LC_ALL, "Portuguese"); //Permite a utilização de acentos e marcações gráficas
-    int opcao=0, numero, i=0, quociente[80], resto[80], auxiliar = 0, resultadoDecimal = 0;
+    int opcao=0, numero, numeroValidacao,i=0, quociente[80], resto[80], auxiliar = 0, resultadoDecimal = 0;
 
+    bool ehValido = true;
 
     while(opcao != 5){
 
@@ -70,12 +75,28 @@ int main(){
                 printf("-----Binário para decimal-----");
                 printf("\nDigite o número: ");
                 scanf("%d", &numero);
-                while(numero!=0){
-                    resultadoDecimal = resultadoDecimal + pow(2,i) * numero % 10;
-                    numero /= 10;
-                    i++;
+                numeroValidacao = numero;
+
+                while(numeroValidacao != 0 || ehValido == true){
+                    if(numeroValidacao % 10 != 0 && numeroValidacao % 10 != 1){
+                        ehValido = false;
+                    } else{
+                        ehValido = true;
+                    }
+                    numeroValidacao /= 10;
                 }
-                printf("\n %d em decimal: ", resultadoDecimal)
+
+                if(ehValido == true){
+                    while(numero!=0){
+                        resultadoDecimal = resultadoDecimal + pow(2,i) * (numero % 10);
+                        numero /= 10;
+                        i++;
+                    }
+                    printf("\n %d em decimal: ", resultadoDecimal);
+                } else {
+                    printf("\nO número inserido é inválido! Tente novamente!!");
+                }
+
                 system("PAUSE");
             break;
 
