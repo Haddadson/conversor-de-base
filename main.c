@@ -2,25 +2,22 @@
 #include <stdlib.h>
 #include <math.h>
 #include <locale.h>  //permite a utilização de acentos e marcas gráficas
-#include <stdbool.h> //permite a utilização do tipo boolean
-
-#define true 1    //define o valor 1 como "true"
-#define false 0   //define o valor 0 como "false"
+#define tamanho 80 //define o valor fixo (80) para tamanho de array
 
 int main(){
 
     setlocale(LC_ALL, "Portuguese"); //Permite a utilização de acentos e marcações gráficas
-    int opcao=0, numero, numeroValidacao,i=0, quociente[80], resto[80], auxiliar = 0, resultadoDecimal = 0;
-
-    bool ehValido = true;
+    int opcao=0, numero, i=0, quociente[tamanho], resto[tamanho], auxiliar = 0, resultadoDecimal = 0, numBinario[tamanho], numBinarioConversao[tamanho];
 
     while(opcao != 5){
 
         //Inicializa e redefine os valores após um uso do programa
         system("CLS");
-        for(i=0; i < 80; i++){
+        for(i=0; i < tamanho; i++){
             quociente[i] = 0;
             resto[i] = 0;
+            numBinario[i]=0;
+            numBinarioConversao[i]=0;
         }
         i = 0;
         auxiliar = 0;
@@ -75,28 +72,31 @@ int main(){
                 printf("-----Binário para decimal-----");
                 printf("\nDigite o número: ");
                 scanf("%d", &numero);
-                numeroValidacao = numero;
+                printf("\n");
 
-                while(numeroValidacao != 0 || ehValido == true){
-                    if(numeroValidacao % 10 != 0 && numeroValidacao % 10 != 1){
-                        ehValido = false;
-                    } else{
-                        ehValido = true;
-                    }
-                    numeroValidacao /= 10;
+                //TODO: verificação número binario (apenas 1 e 0)
+
+                //Transfere o número binário inserido para um vetor
+                while (numero != 1){
+                    numBinario[i] = numero%10;
+                    numero /= 10;
+                    i++;
+                }
+                numBinario[i]= numero;
+                //inverte o número binário utilizando um vetor auxiliar (já que o número é invertido ao ser transferido para string)
+                int a;
+                for (a = i, i=0; a >= 0; a--, i++){
+                    numBinarioConversao[i] = numBinario[a];
+                    printf("%d", numBinarioConversao[i]);
                 }
 
-                if(ehValido == true){
-                    while(numero!=0){
-                        resultadoDecimal = resultadoDecimal + pow(2,i) * (numero % 10);
-                        numero /= 10;
-                        i++;
-                    }
-                    printf("\n %d em decimal: ", resultadoDecimal);
-                } else {
-                    printf("\nO número inserido é inválido! Tente novamente!!");
+                for (i=0; i < tamanho; i++){
+                    numBinarioConversao[i] = numBinarioConversao[i] * pow(2, i);
+                    numero += numBinarioConversao[i];
                 }
 
+                printf(" em decimal: %d", numero);
+                printf("\n");
                 system("PAUSE");
             break;
 
@@ -104,7 +104,7 @@ int main(){
                 printf("-----Decimal para octal-----");
                 printf("\nDigite o número: ");
                 scanf("%d", &numero);
-                printf("\n %d em octal: ",numero);
+                printf("\n %d em octal: ", numero);
                 //Algoritmo para o cálculo
                 while (numero != 1){               // enquanto o quociente for diferente de 1, o programa continuará calculando
                     quociente[i]= numero / 8;     //array que calcula e armazena os quocientes
