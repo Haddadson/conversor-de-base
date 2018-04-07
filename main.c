@@ -7,8 +7,8 @@
 int main(){
     setlocale(LC_ALL, "Portuguese");                                                          //Permite a utilização de acentos e marcações gráficas
     int opcao=0, numero, auxiliar = 0, numValido = 1;                                         //Variáveis para opção do menu, numero a ser inserido e resultado, auxiliar, validação do número
-    int numBinario[tamanho], numOctal[tamanho],quociente[tamanho], resto[tamanho];                              //Vetores utilizados na conversão de bases
-    int tamanhoArray, expoente=0;                                                             //Variáveis para definir o tamanho do vetor e o expoente na conversão
+    int numBinario[tamanho], numOctal[tamanho],quociente[tamanho], resto[tamanho];            //Vetores utilizados na conversão de bases
+    int tamanhoArray, expoente=0, numeroOctal, resultado;                                     //Variáveis para definir o tamanho do vetor e o expoente na conversão
     int  a=0, n, i=0;                                                                         //Variáveis utilizadas em laços de repetição para incremento/decremento
 
     while(opcao != 5){
@@ -26,6 +26,9 @@ int main(){
         numero = 0;
         expoente=0;
         n=0;
+        numValido = 1;
+        resultado = 0;
+        numeroOctal =0;
         //Final das inicializações e redefinição de valores
 
         printf("-----Conversor de Base-----");
@@ -119,7 +122,7 @@ int main(){
 
                     printf(" em decimal: %d", numero);                                        //Imprime o número já convertido
                 } else {
-                    printf("O número inserido não pertence a base 2! Tente novamente!");      //Caso o número seja inválido, exibe mensagem de erro e retorna para o menu
+                    printf("\nO número inserido não pertence a base 2! Tente novamente!");      //Caso o número seja inválido, exibe mensagem de erro e retorna para o menu
                 }
                 printf("\n");
                 system("PAUSE");                                                              //Aguarda o usuário para continuar
@@ -160,11 +163,28 @@ int main(){
             case 4:
                 printf("-----Octal para decimal-----");
                 printf("\nDigite o número: ");
-                scanf("%d", &numero);                                                         //Leitura para receber o número a ser convertido
+                scanf("%d", &numeroOctal);                                                    //Leitura para receber o número a ser convertido
                 printf("\n");                                                                 //Quebra uma linha
+                auxiliar = numeroOctal;
 
-                //TODO
-
+                while (auxiliar != 0){
+                    if (auxiliar % 10 < 0 || auxiliar % 10 > 7){
+                        numValido = 0;
+                        break;
+                    } else {
+                      numValido = 1;
+                    }
+                    auxiliar /= 10;
+                }
+                if (numValido == 1){
+                    while(numeroOctal != 0){
+                        resultado =  resultado +(numeroOctal % 10)* pow(8, i++);
+                        numeroOctal = numeroOctal / 10;
+                    }
+                    printf(" em decimal: %d", resultado);                                     //Imprime o número já convertido
+                }else {
+                    printf("\nO número inserido não pertence a base 8! Tente novamente!");      //Caso o número seja inválido, exibe mensagem de erro e retorna para o menu
+                }
                 system("PAUSE");                                                              //Aguarda o usuário para continuar
             break;
 
