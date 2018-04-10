@@ -2,13 +2,14 @@
 #include <stdlib.h>
 #include <math.h>                                                                             //Permite a utilização de funções matemáticas como pow, para potências
 #include <locale.h>                                                                           //permite a utilização de acentos e marcas gráficas
-#define tamanho 80                                                                            //define o valor fixo (80) para tamanho de array
+#define tamanho 100                                                                            //define o valor fixo (80) para tamanho de array
 
 int main(){
     setlocale(LC_ALL, "Portuguese");                                                          //Permite a utilização de acentos e marcações gráficas
-    int opcao=0, numero, auxiliar = 0, numValido = 1;                                         //Variáveis para opção do menu, numero a ser inserido e resultado, auxiliar, validação do número
-    int numBinario[tamanho], quociente[tamanho], resto[tamanho];                              //Vetores utilizados na conversão de bases
-    int tamanhoArray, expoente=0, resultado;                                                  //Variáveis para definir o tamanho do vetor e o expoente na conversão
+    int opcao=0;                                                                              //Variável para escolha da opção
+    long int numero, auxiliar = 0, numValido = 1, resultado;                                  //Variáveis para numero a ser inserido e resultado, auxiliar, validação do número
+    long int numBinario[tamanho], quociente[tamanho], resto[tamanho];                         //Vetores utilizados na conversão de bases
+    int tamanhoArray, expoente=0;                                                             //Variáveis para definir o tamanho do vetor e o expoente na conversão
     int  a=0, n, i=0;                                                                         //Variáveis utilizadas em laços de repetição para incremento/decremento
 
     while(opcao != 5){
@@ -46,26 +47,37 @@ int main(){
                 //Seleciona conversão de base 10 para base 2
                 printf("-----Decimal para binário-----");
                 printf("\nDigite o número: ");
-                scanf("%d", &numero);                                                         //Leitura para receber o número a ser convertido
-                printf("\n %d em binários: ",numero);                                         //Imprime o número digitado e, após as seguintes instruções, imprimirá o resultado
+                scanf("%ld", &numero);                                                        //Leitura para receber o número a ser convertido
+                printf("\n%ld em binários: ",numero);                                        //Imprime o número digitado e, após as seguintes instruções, imprimirá o resultado
+
                 //Algoritmo de divisões sucessivas para a conversão
-                while (numero != 1){                                                          // enquanto o quociente for diferente de 1, o programa continuará calculando
+                auxiliar = numero;                                                            //Grava o número recebido em uma variável auxiliar para efetuar comparações futuras
+                if(numero == 1){                                                              //caso o número seja 1, executa a lógica apenas uma vez
                     quociente[i]= numero / 2;                                                 //Vetor que calcula e armazena os quocientes
                     resto[i] = numero % 2;                                                    //Vetor que calcula e armazena os restos
                     numero=quociente[i];                                                      //atribuindo novo valor para que seja possível a continuação do cálculo
-                    i++;                                                                      //Incrementa variável i para continuar percorrendo o número
+                } else {                                                                      //caso não seja, converte normalmente
+                    while (numero != 1){                                                      // enquanto o quociente for diferente de 1, o programa continuará calculando
+                        quociente[i]= numero / 2;                                             //Vetor que calcula e armazena os quocientes
+                        resto[i] = numero % 2;                                                //Vetor que calcula e armazena os restos
+                        numero=quociente[i];                                                  //atribuindo novo valor para que seja possível a continuação do cálculo
+                        i++;                                                                  //Incrementa variável i para continuar percorrendo o número
+                    }
                 }
+
                 //Imprimindo o último quociente mais os restos de "trás pra frente" (número em binários)
-                auxiliar = i;                                                                 //Utiliza a variável incrementada para saber buscar o último digito
-                if(quociente[auxiliar] == 0){                                                 //Caso o último digito seja 0
-                    i--;                                                                      //Remove o último digito, para impedir a exibição de zero a esquerda
+                if(auxiliar != 1){
+                    auxiliar = i;                                                             //Utiliza a variável incrementada para saber buscar o último digito
+                    if(quociente[auxiliar] == 0){                                             //Caso o último digito seja 0
+                        i--;                                                                  //Remove o último digito, para impedir a exibição de zero a esquerda
+                    }
                 }
                 //Inicia a impressão do número convertido
                 while (i>=0){                                                                 //Percorre o vetor para imprimir
                     if (quociente[i] == 1){                                                   //Caso o primeiro digito seja 1, imprime o número 1 primeiro
-                      printf("1%d",resto[i]);
+                      printf("1%ld",resto[i]);
                     }else {
-                        printf("%d",resto[i]);                                                //Realiza impressão do vetor com o resultado convertido
+                        printf("%ld",resto[i]);                                                //Realiza impressão do vetor com o resultado convertido
                     }
                     i--;                                                                      //Decrementa a variável i para percorrer o vetor
                 }
@@ -76,7 +88,7 @@ int main(){
                 //Seleciona conversão de base 2 para base 10
                 printf("-----Binário para decimal-----");
                 printf("\nDigite o número: ");
-                scanf("%d", &numero);                                                         //Leitura para receber o número a ser convertido
+                scanf("%ld", &numero);                                                        //Leitura para receber o número a ser convertido
                 printf("\n");                                                                 //Quebra uma linha
                 //Validação para verificar se o número binário possui apenas zeros e uns
                 for (n = numero; n != 0; n /= 10) {                                           //percorre o número dividindo-o por 10 para eliminar o último digito
@@ -99,12 +111,12 @@ int main(){
                     numBinario[i]= numero;                                                    //Transfere o último bit para o vetor
                     numero = 0;                                                               //limpa a variável para exibir o resultado no final
                     tamanhoArray = i;                                                         //define o tamanho do array como o número de iterações necessárias para percorrer o número
-                    int numConversao[tamanhoArray];                                           //cria o vetor do tamanho necessário
+                    long int numConversao[tamanhoArray];                                      //cria o vetor do tamanho necessário
 
                    //inverte o número binário utilizando um vetor auxiliar (já que o número é invertido ao ser transferido para string)
                     for (a = i, i=0; a >= 0; a--, i++){
                         numConversao[i] = numBinario[a];                                      //transfere o último digito de um vetor para o primeiro do outro (invertendo e colocando na ordem certa)
-                        printf("%d", numConversao[i]);                                        //imprime o número digitado em binário
+                        printf("%ld", numConversao[i]);                                       //imprime o número digitado em binário
                     }
 
                     //inicia conversão de dados
@@ -114,7 +126,7 @@ int main(){
                         expoente++;                                                           //incrementa o expoente
                     }
                     //Inicia a impressão do número convertido
-                    printf(" em decimal: %d", numero);                                        //Imprime o número já convertido
+                    printf(" em decimal: %ld", numero);                                       //Imprime o número já convertido
                 } else {
                     printf("\nO número inserido não pertence a base 2! Tente novamente!");    //Caso o número seja inválido, exibe mensagem de erro e retorna para o menu
                 }
@@ -125,26 +137,37 @@ int main(){
                 //Seleciona conversão de base 10 para base 8
                 printf("-----Decimal para octal-----");
                 printf("\nDigite o número: ");
-                scanf("%d", &numero);                                                         //Leitura para receber o número a ser convertido
-                printf("\n %d em octal: ", numero);                                           //Imprime o número digitado e, após as seguintes instruções, imprimirá o resultado
+                scanf("%ld", &numero);                                                        //Leitura para receber o número a ser convertido
+                printf("\n%ld em octal: ", numero);                                           //Imprime o número digitado e, após as seguintes instruções, imprimirá o resultado
+
                 //Algoritmo de divisões sucessivas para a conversão
-                while (numero != 1){                                                          // enquanto o quociente for diferente de 1, o programa continuará calculando
+                auxiliar = numero;                                                            //Grava o número recebido em uma variável auxiliar para efetuar comparações futuras
+                if(numero == 1){                                                              //caso o número seja 1, executa a lógica apenas uma vez
                     quociente[i]= numero / 8;                                                 //Vetor que calcula e armazena os quocientes
                     resto[i] = numero % 8;                                                    //Vetor que calcula e armazena os restos
                     numero=quociente[i];                                                      //atribuindo novo valor para que seja possível a continuação do cálculo
-                    i++;
+                } else {                                                                      //caso não seja, converte normalmente
+                    while (numero != 1){                                                      //enquanto o quociente for diferente de 1, o programa continuará calculando
+                        quociente[i]= numero / 8;                                             //Vetor que calcula e armazena os quocientes
+                        resto[i] = numero % 8;                                                //Vetor que calcula e armazena os restos
+                        numero=quociente[i];                                                  //atribuindo novo valor para que seja possível a continuação do cálculo
+                        i++;                                                                  //Incrementa variável i para continuar percorrendo o número
+                    }
                 }
+
                 //Imprimindo o último quociente mais os restos de "trás pra frente" (número em octal)
-                auxiliar = i;                                                                 //Utiliza a variável incrementada para saber buscar o último digito
-                if(quociente[auxiliar] == 0){                                                 //Caso o último digito seja 0
-                    i--;                                                                      //Remove o último digito, para impedir a exibição de zero a esquerda
+                if(auxiliar != 1){
+                    auxiliar = i;                                                             //Utiliza a variável incrementada para saber buscar o último digito
+                    if(quociente[auxiliar] == 0){                                             //Caso o último digito seja 0
+                        i--;                                                                  //Remove o último digito, para impedir a exibição de zero a esquerda
+                    }
                 }
                 //Inicia a impressão do número convertido
                 while (i>=0){                                                                 //Percorre o vetor para imprimir
                     if (quociente[i] == 1){                                                   //Caso o primeiro digito seja 1, imprime o número 1 primeiro
-                      printf("1%d",resto[i]);
+                      printf("1%ld",resto[i]);
                      }else {
-                        printf("%d",resto[i]);                                                //Realiza impressão do vetor com o resultado convertido
+                        printf("%ld",resto[i]);                                               //Realiza impressão do vetor com o resultado convertido
                     }
                     i--;                                                                      //Decrementa a variável i para percorrer o vetor
                 }
@@ -156,7 +179,7 @@ int main(){
                 //Seleciona conversão de base 8 para base 10
                 printf("-----Octal para decimal-----");
                 printf("\nDigite o número: ");
-                scanf("%d", &numero);                                                         //Leitura para receber o número a ser convertido
+                scanf("%ld", &numero);                                                        //Leitura para receber o número a ser convertido
                 printf("\n");                                                                 //Quebra uma linha
                 auxiliar = numero;                                                            //Iguala a variável auxiliar ao número recebido
 
@@ -174,7 +197,7 @@ int main(){
                         resultado =  resultado +(numero % 10)* pow(8, i++);                   //Realiza a conversão, obtendo o último digito, multiplicando-o por 8 elevado à posição e somando o resultado
                         numero /= 10;                                                         //Divide o número por 10 para eliminar o último digito e continuar a iteração
                     }
-                    printf(" em decimal: %d", resultado);                                     //Imprime o número já convertido
+                    printf(" em decimal: %ld", resultado);                                    //Imprime o número já convertido
                 }else {
                     printf("\nO número inserido não pertence a base 8! Tente novamente!");    //Caso o número seja inválido, exibe mensagem de erro e retorna para o menu
                 }
