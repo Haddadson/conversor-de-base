@@ -7,27 +7,25 @@
 int main(){
     setlocale(LC_ALL, "Portuguese");                                                          //Permite a utilização de acentos e marcações gráficas
     int opcao=0;                                                                              //Variável para escolha da opção
-    long int numero, auxiliar = 0, numValido = 1, resultado;                                  //Variáveis para numero a ser inserido e resultado, auxiliar, validação do número
-    long int numBinario[tamanho], quociente[tamanho], resto[tamanho];                         //Vetores utilizados na conversão de bases
-    int tamanhoArray, expoente=0;                                                             //Variáveis para definir o tamanho do vetor e o expoente na conversão
-    int  a=0, n, i=0;                                                                         //Variáveis utilizadas em laços de repetição para incremento/decremento
+    long int numero, auxiliar = 0,resultado;                                                  //Variáveis para numero a ser inserido, auxiliar e resultado
+    long int numBinario[tamanho];                                                             //Vetor utilizado na conversão de bases
+    int tamanhoArray, expoente=0, numValido = 1;                                              //Variáveis para definir o tamanho do vetor, o expoente na conversão e validação do número
+    int  a=0, i=0;                                                                            //Variáveis utilizadas em laços de repetição para incremento/decremento
 
     while(opcao != 5){
         //Inicializa e redefine os valores após um uso do programa
         system("CLS");                                                                        //Limpa a tela, removendo todos os caracteres
         for(i=0; i < tamanho; i++){
-            quociente[i] = 0;
-            resto[i] = 0;
             numBinario[i] = 0;
         }
         a=0;
         i = 0;
         auxiliar = 0;
-        numero = 0;
         expoente=0;
-        n=0;
+        numero = 0;
         numValido = 1;
         resultado = 0;
+        tamanhoArray = 0;
         //Final das inicializações e redefinição de valores
         //Impressão do menu inicial
         printf("-----Conversor de Base-----");
@@ -48,16 +46,16 @@ int main(){
                 printf("-----Decimal para binário-----");
                 printf("\nDigite o número: ");
                 scanf("%ld", &numero);                                                        //Leitura para receber o número a ser convertido
-                printf("\n%ld em binários: ",numero);                                        //Imprime o número digitado e, após as seguintes instruções, imprimirá o resultado
+                printf("\n%ld em binários: ",numero);                                         //Imprime o número digitado e, após as seguintes instruções, imprimirá o resultado
 
                 //Algoritmo de divisões sucessivas para a conversão
-                i = 1;                                                                        //Define a variável da posição (0,1,2) como 1
+                i = 1;                                                                        //Define a variável da posição (0,1,2 para definir "unidade, dezena, centena") como 1
                 while (numero != 0){                                                          //Percorre o número, efetuando a conversão enquanto for diferente de 0
                     resultado += (numero % 2) * i;                                            //O resultado da conversão é o resto da divisão por 8 e é multiplicado por i para indicar a posição (0,1,2 etc)
                     numero /= 2;                                                              //Divide o número por 8 para seguir a lógica de divisões sucessivas
-                    i *= 10;
-                }
-                printf("%ld (2)\n", resultado);                                               //Imprime a base do número e salta uma linha
+                    i *= 10;                                                                  //Multiplica por 10 para efetuar o cálculo referente ao próximo digito
+                } //Fim da conversão de dados
+                printf("%ld(2)\n", resultado);                                                //Imprime a base do número e salta uma linha
                 system("PAUSE");                                                              //Aguarda o usuário para continuar
             break;
             case 2:
@@ -66,15 +64,15 @@ int main(){
                 printf("\nDigite o número: ");
                 scanf("%ld", &numero);                                                        //Leitura para receber o número a ser convertido
                 printf("\n");                                                                 //Quebra uma linha
-                //Validação para verificar se o número binário possui apenas zeros e uns
-                for (n = numero; n != 0; n /= 10) {                                           //percorre o número dividindo-o por 10 para eliminar o último digito
-                    auxiliar = n % 10;                                                        //pega o resto da divisão por dez, sendo ele o último digito do número
-                    if (auxiliar != 0 && auxiliar != 1) {                                     //verifica se o número possui apenas 0s e 1s
-                        numValido = 0;                                                        //caso não possua, o número é marcado como inválido
-                        break;                                                                //quebra o loop for através do break
+                auxiliar = numero;                                                            //Atribui o valor do número recebido à variável auxiliar
+                //Validação para checar se o número binário possui apenas zeros e uns
+                while (auxiliar != 0 && numValido ==1) {                                      //Percorre o número dividindo-o por 10 para eliminar o último digito
+                    if ((auxiliar % 10) != 0 && (auxiliar % 10) != 1) {                       //Verifica se o último digito é um 0 ou 1, indicando se o número possui apenas esses algarismos
+                        numValido = 0;                                                        //caso possua outros, o número é marcado como inválido
                     } else{
                         numValido = 1;                                                        //Caso passe na validação, o número é marcado como válido
                     }
+                    auxiliar /= 10;
                 }
 
                 if(numValido == 1){                                                           //caso o número seja válido, executa a conversão
@@ -100,9 +98,9 @@ int main(){
                         numConversao[a] = numConversao[a] * pow(2, expoente);                 //multiplica o digito pela base elevada à posição
                         numero += numConversao[a];                                            //Soma o valor multiplicado para exibir o resultado
                         expoente++;                                                           //incrementa o expoente
-                    }
+                    } //Finaliza conversão de dados
                     //Inicia a impressão do número convertido
-                    printf(" em decimal: %ld", numero);                                       //Imprime o número já convertido
+                    printf("(2) em decimal: %ld", numero);                                       //Imprime o número já convertido
                 } else {
                     printf("\nO número inserido não pertence a base 2! Tente novamente!");    //Caso o número seja inválido, exibe mensagem de erro e retorna para o menu
                 }
@@ -130,13 +128,12 @@ int main(){
                 printf("-----Octal para decimal-----");
                 printf("\nDigite o número: ");
                 scanf("%ld", &numero);                                                        //Leitura para receber o número a ser convertido
-                printf("\n");                                                                 //Quebra uma linha
+                printf("\n%ld(8)", numero);                                                      //Quebra uma linha
                 auxiliar = numero;                                                            //Iguala a variável auxiliar ao número recebido
-
-                while (auxiliar != 0){                                                        //Laço de repetição para percorrer o número inserido
+                //Validação para checar se o número possui apenas digitos de 0 a 7
+                while (auxiliar != 0 && numValido == 1){                                      //Laço de repetição para percorrer o número inserido, sai caso o número seja inválido
                     if (auxiliar % 10 < 0 || auxiliar % 10 > 7){                              //Verifica se o último digito é valido (entre 0 e 7)
                         numValido = 0;                                                        //Caso não seja, o número é marcado como inválido
-                        break;                                                                //Força a saída do loop
                     } else {
                       numValido = 1;                                                          //Caso seja válido, o número é marcado como válido
                     }
@@ -144,7 +141,7 @@ int main(){
                 }
                 if (numValido == 1){                                                          //Caso o número seja válido, executa a conversão
                     while(numero != 0){                                                       //Percorre o número
-                        resultado =  resultado +(numero % 10)* pow(8, i++);                   //Realiza a conversão, obtendo o último digito, multiplicando-o por 8 elevado à posição e somando o resultado
+                        resultado += (numero % 10)* pow(8, i++);                              //Realiza a conversão, obtendo o último digito, multiplicando-o por 8 elevado à posição e somando o resultado
                         numero /= 10;                                                         //Divide o número por 10 para eliminar o último digito e continuar a iteração
                     }
                     printf(" em decimal: %ld", resultado);                                    //Imprime o número já convertido
@@ -162,7 +159,7 @@ int main(){
             break;
 
             default:
-                //Seleciona opção padrão, caso o valor inserido não atenda nenhuma condição dos 'cases'
+                //Seleciona opção padrão caso o valor inserido não atenda nenhuma condição dos 'cases'
                 printf("Opção inválida, tente novamente.\n");                                 //Mensagem indicando que a opção escolhida é inválida
                 system("PAUSE");                                                              //Aguarda o usuário para continuar
             break;
