@@ -51,37 +51,13 @@ int main(){
                 printf("\n%ld em binários: ",numero);                                        //Imprime o número digitado e, após as seguintes instruções, imprimirá o resultado
 
                 //Algoritmo de divisões sucessivas para a conversão
-                auxiliar = numero;                                                            //Grava o número recebido em uma variável auxiliar para efetuar comparações futuras
-                if(numero == 1){                                                              //caso o número seja 1, executa a lógica apenas uma vez
-                    quociente[i]= numero / 2;                                                 //Vetor que calcula e armazena os quocientes
-                    resto[i] = numero % 2;                                                    //Vetor que calcula e armazena os restos
-                    numero=quociente[i];                                                      //atribuindo novo valor para que seja possível a continuação do cálculo
-                } else {                                                                      //caso não seja, converte normalmente
-                    while (numero != 1){                                                      // enquanto o quociente for diferente de 1, o programa continuará calculando
-                        quociente[i]= numero / 2;                                             //Vetor que calcula e armazena os quocientes
-                        resto[i] = numero % 2;                                                //Vetor que calcula e armazena os restos
-                        numero=quociente[i];                                                  //atribuindo novo valor para que seja possível a continuação do cálculo
-                        i++;                                                                  //Incrementa variável i para continuar percorrendo o número
-                    }
+                i = 1;                                                                        //Define a variável da posição (0,1,2) como 1
+                while (numero != 0){                                                          //Percorre o número, efetuando a conversão enquanto for diferente de 0
+                    resultado += (numero % 2) * i;                                            //O resultado da conversão é o resto da divisão por 8 e é multiplicado por i para indicar a posição (0,1,2 etc)
+                    numero /= 2;                                                              //Divide o número por 8 para seguir a lógica de divisões sucessivas
+                    i *= 10;
                 }
-
-                //Imprimindo o último quociente mais os restos de "trás pra frente" (número em binários)
-                if(auxiliar != 1){
-                    auxiliar = i;                                                             //Utiliza a variável incrementada para saber buscar o último digito
-                    if(quociente[auxiliar] == 0){                                             //Caso o último digito seja 0
-                        i--;                                                                  //Remove o último digito, para impedir a exibição de zero a esquerda
-                    }
-                }
-                //Inicia a impressão do número convertido
-                while (i>=0){                                                                 //Percorre o vetor para imprimir
-                    if (quociente[i] == 1){                                                   //Caso o primeiro digito seja 1, imprime o número 1 primeiro
-                      printf("1%ld",resto[i]);
-                    }else {
-                        printf("%ld",resto[i]);                                                //Realiza impressão do vetor com o resultado convertido
-                    }
-                    i--;                                                                      //Decrementa a variável i para percorrer o vetor
-                }
-                printf(" (2)\n");                                                             //Imprime a base do número e salta uma linha
+                printf("%ld (2)\n", resultado);                                               //Imprime a base do número e salta uma linha
                 system("PAUSE");                                                              //Aguarda o usuário para continuar
             break;
             case 2:
@@ -139,39 +115,13 @@ int main(){
                 printf("\nDigite o número: ");
                 scanf("%ld", &numero);                                                        //Leitura para receber o número a ser convertido
                 printf("\n%ld em octal: ", numero);                                           //Imprime o número digitado e, após as seguintes instruções, imprimirá o resultado
-
-                //Algoritmo de divisões sucessivas para a conversão
-                auxiliar = numero;                                                            //Grava o número recebido em uma variável auxiliar para efetuar comparações futuras
-                if(numero == 1){                                                              //caso o número seja 1, executa a lógica apenas uma vez
-                    quociente[i]= numero / 8;                                                 //Vetor que calcula e armazena os quocientes
-                    resto[i] = numero % 8;                                                    //Vetor que calcula e armazena os restos
-                    numero=quociente[i];                                                      //atribuindo novo valor para que seja possível a continuação do cálculo
-                } else {                                                                      //caso não seja, converte normalmente
-                    while (numero != 1){                                                      //enquanto o quociente for diferente de 1, o programa continuará calculando
-                        quociente[i]= numero / 8;                                             //Vetor que calcula e armazena os quocientes
-                        resto[i] = numero % 8;                                                //Vetor que calcula e armazena os restos
-                        numero=quociente[i];                                                  //atribuindo novo valor para que seja possível a continuação do cálculo
-                        i++;                                                                  //Incrementa variável i para continuar percorrendo o número
-                    }
+                i = 1;                                                                        //Define a variável da posição (0,1,2) como 1
+                while (numero != 0){                                                          //Percorre o número, efetuando a conversão enquanto for diferente de 0
+                    resultado += (numero % 8) * i;                                            //O resultado da conversão é o resto da divisão por 8 e é multiplicado por i para indicar a posição (0,1,2 etc)
+                    numero /= 8;                                                              //Divide o número por 8 para seguir a lógica de divisões sucessivas
+                    i *= 10;
                 }
-
-                //Imprimindo o último quociente mais os restos de "trás pra frente" (número em octal)
-                if(auxiliar != 1){
-                    auxiliar = i;                                                             //Utiliza a variável incrementada para saber buscar o último digito
-                    if(quociente[auxiliar] == 0){                                             //Caso o último digito seja 0
-                        i--;                                                                  //Remove o último digito, para impedir a exibição de zero a esquerda
-                    }
-                }
-                //Inicia a impressão do número convertido
-                while (i>=0){                                                                 //Percorre o vetor para imprimir
-                    if (quociente[i] == 1){                                                   //Caso o primeiro digito seja 1, imprime o número 1 primeiro
-                      printf("1%ld",resto[i]);
-                     }else {
-                        printf("%ld",resto[i]);                                               //Realiza impressão do vetor com o resultado convertido
-                    }
-                    i--;                                                                      //Decrementa a variável i para percorrer o vetor
-                }
-                printf(" (8)\n");                                                             //Imprime a base do número e salta uma linha
+                printf("%ld(8)\n", resultado);                                                //Imprime a base do número e salta uma linha
                 system("PAUSE");                                                              //Aguarda o usuário para continuar
             break;
 
