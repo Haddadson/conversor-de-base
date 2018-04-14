@@ -7,7 +7,8 @@
 int main(){
     setlocale(LC_ALL, "Portuguese");                                                          //Permite a utilização de acentos e marcações gráficas
     int opcao=0;                                                                              //Variável para escolha da opção
-    long int numero, auxiliar = 0,resultado;                                                  //Variáveis para numero a ser inserido, auxiliar e resultado
+    int numero, auxiliar = 0;                                                                 //Variável para numero a ser inserido e auxiliar nas conversões
+    long int resultado;                                                                       //Variável de resultado
     long int numBinario[tamanho];                                                             //Vetor utilizado na conversão de bases
     int tamanhoArray, expoente=0, numValido = 1;                                              //Variáveis para definir o tamanho do vetor, o expoente na conversão e validação do número
     int  a=0, i=0;                                                                            //Variáveis utilizadas em laços de repetição para incremento/decremento
@@ -45,8 +46,8 @@ int main(){
                 //Seleciona conversão de base 10 para base 2
                 printf("-----Decimal para binário-----");
                 printf("\nDigite o número: ");
-                scanf("%ld", &numero);                                                        //Leitura para receber o número a ser convertido
-                printf("\n%ld em binários: ",numero);                                         //Imprime o número digitado e, após as seguintes instruções, imprimirá o resultado
+                scanf("%d", &numero);                                                        //Leitura para receber o número a ser convertido
+                printf("\n%d em binários: ",numero);                                         //Imprime o número digitado e, após as seguintes instruções, imprimirá o resultado
 
                 //Algoritmo de divisões sucessivas para a conversão
                 i = 1;                                                                        //Define a variável da posição (0,1,2 para definir "unidade, dezena, centena") como 1
@@ -62,7 +63,7 @@ int main(){
                 //Seleciona conversão de base 2 para base 10
                 printf("-----Binário para decimal-----");
                 printf("\nDigite o número: ");
-                scanf("%ld", &numero);                                                        //Leitura para receber o número a ser convertido
+                scanf("%d", &numero);                                                         //Leitura para receber o número a ser convertido
                 printf("\n");                                                                 //Quebra uma linha
                 auxiliar = numero;                                                            //Atribui o valor do número recebido à variável auxiliar
                 //Validação para checar se o número binário possui apenas zeros e uns
@@ -74,15 +75,16 @@ int main(){
                     }
                     auxiliar /= 10;
                 }
-
                 if(numValido == 1){                                                           //caso o número seja válido, executa a conversão
                     //Transfere o número binário inserido para um vetor
-                    while (numero != 1){
+                    while (numero != 0){
                         numBinario[i] = numero%10;                                            //Armazena o último digito em um vetor
                         numero /= 10;                                                         //Divide o número por 10 para remover o último digito e buscar o próximo
                         i++;                                                                  //Incrementa para continuar percorrendo o número
                     }
-                    numBinario[i]= numero;                                                    //Transfere o último bit para o vetor
+                    if(numBinario[i]==0){
+                        i--;
+                    }
                     numero = 0;                                                               //limpa a variável para exibir o resultado no final
                     tamanhoArray = i;                                                         //define o tamanho do array como o número de iterações necessárias para percorrer o número
                     long int numConversao[tamanhoArray];                                      //cria o vetor do tamanho necessário
@@ -100,7 +102,7 @@ int main(){
                         expoente++;                                                           //incrementa o expoente
                     } //Finaliza conversão de dados
                     //Inicia a impressão do número convertido
-                    printf("(2) em decimal: %ld", numero);                                       //Imprime o número já convertido
+                    printf("(2) em decimal: %d", numero);                                      //Imprime o número já convertido
                 } else {
                     printf("\nO número inserido não pertence a base 2! Tente novamente!");    //Caso o número seja inválido, exibe mensagem de erro e retorna para o menu
                 }
@@ -111,8 +113,8 @@ int main(){
                 //Seleciona conversão de base 10 para base 8
                 printf("-----Decimal para octal-----");
                 printf("\nDigite o número: ");
-                scanf("%ld", &numero);                                                        //Leitura para receber o número a ser convertido
-                printf("\n%ld em octal: ", numero);                                           //Imprime o número digitado e, após as seguintes instruções, imprimirá o resultado
+                scanf("%d", &numero);                                                         //Leitura para receber o número a ser convertido
+                printf("\n%d em octal: ", numero);                                            //Imprime o número digitado e, após as seguintes instruções, imprimirá o resultado
                 i = 1;                                                                        //Define a variável da posição (0,1,2) como 1
                 while (numero != 0){                                                          //Percorre o número, efetuando a conversão enquanto for diferente de 0
                     resultado += (numero % 8) * i;                                            //O resultado da conversão é o resto da divisão por 8 e é multiplicado por i para indicar a posição (0,1,2 etc)
@@ -127,8 +129,8 @@ int main(){
                 //Seleciona conversão de base 8 para base 10
                 printf("-----Octal para decimal-----");
                 printf("\nDigite o número: ");
-                scanf("%ld", &numero);                                                        //Leitura para receber o número a ser convertido
-                printf("\n%ld(8)", numero);                                                      //Quebra uma linha
+                scanf("%d", &numero);                                                         //Leitura para receber o número a ser convertido
+                printf("\n%d(8)", numero);                                                    //Quebra uma linha
                 auxiliar = numero;                                                            //Iguala a variável auxiliar ao número recebido
                 //Validação para checar se o número possui apenas digitos de 0 a 7
                 while (auxiliar != 0 && numValido == 1){                                      //Laço de repetição para percorrer o número inserido, sai caso o número seja inválido
